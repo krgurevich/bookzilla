@@ -17,7 +17,12 @@
   },
   "dependencies": {
     "apollo-server-express": "^2.25.3",
+    "eslint-visitor-keys": "^3.3.0",
     "express": "^4.17.2",
     "graphql": "^15.8.0"
+  },
+  "engines": {
+    "node": ">=16.x",
+    "npm": ">=7.x"
   }
 }
