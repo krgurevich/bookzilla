@@ -6,6 +6,7 @@ const { ApolloServer } = require("apollo-server-express");
 // Import the two parts of a GraphQL schema
 const { typeDefs, resolvers } = require("./schemas");
 const { authMiddleWare } = require("./utils/auth");
+const routes = require("./routes");
 
 // db connection
 const db = require("./config/connection");
@@ -36,7 +37,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-// app.use(routes);
+app.use(routes);
 //Get all
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
