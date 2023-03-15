@@ -6,13 +6,14 @@ const resolvers = {
   Query: {
     //get a user by username
     me: async (parent, args, context) => {
-      if (context.user) {
+      console.log(context);
+      // if (context.user) {
         const userData = await User.findOne({})
           .select("-__v -password")
           .populate("books");
 
         return userData;
-      }
+      // }
 
       throw new AuthenticationError("Not logged in");
     },
@@ -40,11 +41,13 @@ const resolvers = {
       }
 
       const token = signToken(user);
+
       return { token, user };
     },
 
     saveBook: async (parent, args, context) => {
-      console.log("hello");
+    console.log("hello2")
+    console.log(context);
       if (context.user) {
         //   const savedBook = await Book.create({ ...args, username: context.user.username });
 
