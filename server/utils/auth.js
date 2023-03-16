@@ -1,7 +1,8 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-const secret = "mysecretsshhhhh";
-const expiration = "2h";
+// const secret = process.env.MYSECRET;
+const secret = 'hailsithis';
+const expiration = '2h';
 
 module.exports = {
   signToken: function ({ username, email, _id }) {
@@ -9,34 +10,29 @@ module.exports = {
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
+  authMiddleware: function ({ req }) {
+    //allows token to be sent via req.body, req.query or headers
+    let token = req.body.token || req.query.token || req.headers.authorization;
 
-  authMiddleware: function (req) {
-    //allows token to be sent via req.body, req.query, or headers
-
-    let token =
-      req.body?.token || req.query?.token || req.headers?.authorization;
-    // let token = req.query.token || req.headers.authorization;
-    //separate "Bearer" from "<tokenvalue>"
-    if (req.headers?.authorization) {
-      token = token.split(" ").pop().trim();
+    // seperate 'Bearer' from '<tokenvalue>'
+    if (req.headers.authorization) {
+      token = token.split(' ').pop().trim();
     }
-    console.log("hello1")
-    //if no token, return request object as is
+
+    // if no token, return request object as is
     if (!token) {
       return req;
     }
-    console.log("hello1")
 
     try {
-      //decode and attach user data to request object
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      // decode and attach user data to request object
+      const { data } = jwt.verify(token, secret, { maxAge: '2h' });
       req.user = data;
     } catch {
-      console.log("Invalid token");
+      console.log('Invalid token!');
     }
-    console.log("hello1")
 
-    //return updated request object
+    // return updated request object
     return req;
-  },
-};
+  }
+}; 
